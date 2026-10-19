@@ -48,6 +48,8 @@
     .cal-item-list{display:grid;gap:4px;margin-top:6px;min-width:0}
     .cal-event,.cal-user-plan{display:block;min-width:0;overflow:hidden;padding:3px 5px;border-radius:7px;font-size:9px;font-weight:700;line-height:1.25;text-overflow:ellipsis;white-space:nowrap}
     .cal-event{border-left:2px solid transparent}
+    .cal-event-full{display:block}
+    .cal-event-short{display:none}
     .cal-event.holiday{border-left-color:#ff6682;background:rgba(255,88,118,.14);color:#ff9bad}
     .cal-event.exam-tentative{border-left-color:#f4bd59;background:rgba(246,195,94,.13);color:#f3ce82}
     .cal-event.exam-confirmed{border-left-color:#7f9dff;background:rgba(91,128,255,.18);color:#bdcaff}
@@ -72,18 +74,25 @@
     .cal-day{position:relative;display:block;width:100%;text-align:left;cursor:default}.cal-day-open{display:flex;width:100%;align-items:center;padding:0 26px 0 0;border:0;background:transparent;color:inherit;text-align:left}.cal-day-open:hover{background:transparent}.cal-add-event{position:absolute;top:7px;right:7px;display:grid;width:22px;height:22px;place-items:center;padding:0;border:1px solid rgba(255,255,255,.11);border-radius:50%;background:rgba(255,255,255,.07);color:#cbd4ff;font-size:14px;line-height:1}.cal-add-event:hover{border-color:rgba(135,158,255,.55);background:rgba(91,128,255,.19);color:#fff}.cal-day.exam-day{border-color:rgba(255,193,102,.65);background:radial-gradient(ellipse at 50% 0%,rgba(255,184,84,.15),transparent 72%),linear-gradient(145deg,rgba(255,255,255,.055),rgba(255,255,255,.018))}.cal-day.exam-day .day-num{background:linear-gradient(140deg,#ffe3a5,#f3ae55);color:#37210b;box-shadow:0 2px 12px rgba(255,183,82,.22)}.cal-event.csat{border-left-color:#ffd477;background:linear-gradient(105deg,rgba(255,184,83,.27),rgba(255,88,118,.18));color:#ffe0a4;font-weight:850}.cal-event.user-event,.cal-event.user-exam{width:100%;border:0;border-left:2px solid #59d59b;text-align:left;cursor:pointer}.cal-event.user-event{background:rgba(54,205,127,.13);color:#a5e9c4}.cal-event.user-exam{border-left-color:#ffbd59;background:rgba(246,195,94,.15);color:#f6d28c}.cal-event.user-event:hover,.cal-event.user-exam:hover{filter:brightness(1.18)}.calendar-legend-item i.csat{background:#ffd477;box-shadow:0 0 10px rgba(255,212,119,.4)}.calendar-legend-item i.custom-event{background:#58d39a}.calendar-legend-item i.custom-exam{background:#f4bd59}.calendar-agenda{margin-top:14px;padding-top:12px;border-top:1px solid var(--line)}.calendar-agenda h3{margin:0;font-size:13px}.calendar-agenda-list{display:grid;gap:6px;margin-top:8px}.calendar-agenda-row{display:grid;width:100%;grid-template-columns:105px minmax(0,1fr) auto;align-items:center;gap:8px;padding:8px 10px;border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.035);color:var(--ink);text-align:left}.calendar-agenda-row:hover{background:rgba(255,255,255,.075)}.calendar-agenda-date{color:#aeb5c3;font-size:10px;white-space:nowrap}.calendar-agenda-title{overflow:hidden;font-size:11px;font-weight:750;text-overflow:ellipsis;white-space:nowrap}.calendar-agenda-title small{display:block;color:var(--muted);font-size:9px;font-weight:500}.calendar-agenda-edit{color:#aebeff;font-size:10px}.calendar-agenda-empty{margin:8px 0 0;color:var(--muted);font-size:11px}
     .personal-dday-card{background:radial-gradient(ellipse at 100% 0%,rgba(110,128,255,.11),transparent 42%),linear-gradient(145deg,rgba(255,255,255,.055),rgba(255,255,255,.012) 55%),rgba(34,36,43,.78)}.personal-dday-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,235px),1fr));gap:9px}.personal-dday-item{display:grid;grid-template-columns:minmax(0,1fr) 31px;align-items:stretch;gap:5px;padding:7px;border:1px solid rgba(255,255,255,.09);border-radius:17px;background:rgba(255,255,255,.035);transition:border-color .18s ease,background .18s ease}.personal-dday-item:hover{border-color:rgba(139,156,255,.3);background:rgba(255,255,255,.06)}.personal-dday-main{display:grid;min-width:0;grid-template-columns:minmax(0,1fr) auto;grid-template-rows:auto auto;align-items:center;gap:2px 9px;padding:5px 7px;border:0;border-radius:12px;background:transparent;color:var(--ink);text-align:left}.personal-dday-title{overflow:hidden;font-size:12px;font-weight:750;text-overflow:ellipsis;white-space:nowrap}.personal-dday-count{grid-column:2;grid-row:1/3;color:#b6c5ff;font-size:23px;font-variant-numeric:tabular-nums;letter-spacing:-.04em;white-space:nowrap}.personal-dday-date{grid-column:1;color:#a6abb7;font-size:9px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.personal-dday-item.today{border-color:rgba(255,202,115,.38);background:rgba(255,193,102,.07)}.personal-dday-item.today .personal-dday-count{color:#ffd891}.personal-dday-item.past .personal-dday-count{color:#a2a7b2}.personal-dday-delete{align-self:center;width:29px;height:29px;border:1px solid transparent;border-radius:50%;background:transparent;color:#949aa6;font-size:18px;line-height:1}.personal-dday-delete:hover{border-color:rgba(255,88,118,.25);background:rgba(255,88,118,.12);color:#ff9aaa}
     @media(max-width:700px){.personal-dday-grid{grid-template-columns:1fr}.personal-dday-card .card-title-row{align-items:flex-start}}
+    .nav-icon{display:grid;place-items:center;flex:0 0 25px;width:25px;height:25px;border-radius:9px;color:rgba(208,216,231,.76);transition:color .18s ease,background .18s ease,transform .18s ease}
+    .nav-icon svg{display:block;width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.65;stroke-linecap:round;stroke-linejoin:round}
+    .nav-btn:hover .nav-icon{color:#f2f5ff;transform:translateY(-1px)}
+    .nav-btn.active .nav-icon{color:#b8c8ff;background:rgba(126,153,255,.12);box-shadow:inset 0 0 0 1px rgba(150,172,255,.12)}
+    .mobile-nav .nav-icon{flex-basis:auto;width:27px;height:25px}
+    .mobile-nav .nav-icon svg{width:19px;height:19px}
+    .brand-mark svg{display:block;width:23px;height:23px;fill:none;stroke:currentColor;stroke-width:1.55;stroke-linecap:round;stroke-linejoin:round}
   </style>
 </head>
 <body>
   <div class="app">
     <aside class="sidebar">
-      <div class="brand"><div class="brand-mark">오</div><div><div class="brand-title">오늘공부</div><div class="brand-sub">나만의 수능 플래너</div></div></div>
+      <div class="brand"><div class="brand-mark"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4.5 5.5h5a2.5 2.5 0 0 1 2.5 2.5v11a2.2 2.2 0 0 0-2.5-2h-5z"/><path d="M19.5 5.5h-5A2.5 2.5 0 0 0 12 8v11a2.2 2.2 0 0 1 2.5-2h5z"/><path d="M7 9h2.5M7 12h2.5M15 9h2M15 12h2"/><path d="m18.5 2 .55 1.35L20.5 4l-1.45.6L18.5 6l-.55-1.4L16.5 4l1.45-.65z"/></svg></div><div><div class="brand-title">오늘공부</div><div class="brand-sub">나만의 수능 플래너</div></div></div>
       <nav class="nav-list" aria-label="주요 화면">
-        <button class="nav-btn" data-page="home"><span class="nav-icon">⌂</span>오늘</button>
-        <button class="nav-btn" data-page="month"><span class="nav-icon">▦</span>월간 계획</button>
-        <button class="nav-btn" data-page="week"><span class="nav-icon">▤</span>주간 계획</button>
-        <button class="nav-btn" data-page="day"><span class="nav-icon">☷</span>일간 시간표</button>
-        <button class="nav-btn" data-page="settings"><span class="nav-icon">⚙</span>과목 및 설정</button>
+        <button class="nav-btn" data-page="home"><span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m3.5 10.7 8.5-7 8.5 7"/><path d="M5.5 9.5v10h5v-5h3v5h5v-10"/></svg></span>오늘</button>
+        <button class="nav-btn" data-page="month"><span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3.8" y="5.2" width="16.4" height="15.2" rx="2.5"/><path d="M8 3.5v3.4M16 3.5v3.4M4 9.5h16M8 13h.01M12 13h.01M16 13h.01M8 16.5h.01M12 16.5h.01"/></svg></span>월간 계획</button>
+        <button class="nav-btn" data-page="week"><span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3.8" y="5.2" width="16.4" height="15.2" rx="2.5"/><path d="M8 3.5v3.4M16 3.5v3.4M4 9.5h16M9.3 9.5v10.5M14.7 9.5v10.5M4 14.7h16"/></svg></span>주간 계획</button>
+        <button class="nav-btn" data-page="day"><span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="4" y="4.5" width="16" height="16" rx="2.5"/><path d="M8 2.8v3.4M16 2.8v3.4M8 10h8M8 13.5h5M8 17h8"/><circle cx="6.2" cy="10" r=".45" fill="currentColor" stroke="none"/></svg></span>일간 시간표</button>
+        <button class="nav-btn" data-page="settings"><span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 6.5h9M17 6.5h3M4 12h3M11 12h9M4 17.5h8M16 17.5h4"/><circle cx="15" cy="6.5" r="2"/><circle cx="9" cy="12" r="2"/><circle cx="14" cy="17.5" r="2"/></svg></span>과목 및 설정</button>
       </nav>
       <div class="side-note"><b>내 태블릿에 저장됩니다</b>인터넷 없이도 계획을 확인하고 수정할 수 있어요.</div>
     </aside>
@@ -95,11 +104,11 @@
       <section id="pageView" class="page"></section>
     </main>
     <nav class="mobile-nav" aria-label="주요 화면">
-      <button class="nav-btn" data-page="home"><span class="nav-icon">⌂</span>오늘</button>
-      <button class="nav-btn" data-page="month"><span class="nav-icon">▦</span>월간</button>
-      <button class="nav-btn" data-page="week"><span class="nav-icon">▤</span>주간</button>
-      <button class="nav-btn" data-page="day"><span class="nav-icon">☷</span>일간</button>
-      <button class="nav-btn" data-page="settings"><span class="nav-icon">⚙</span>설정</button>
+      <button class="nav-btn" data-page="home"><span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m3.5 10.7 8.5-7 8.5 7"/><path d="M5.5 9.5v10h5v-5h3v5h5v-10"/></svg></span>오늘</button>
+      <button class="nav-btn" data-page="month"><span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3.8" y="5.2" width="16.4" height="15.2" rx="2.5"/><path d="M8 3.5v3.4M16 3.5v3.4M4 9.5h16M8 13h.01M12 13h.01M16 13h.01M8 16.5h.01M12 16.5h.01"/></svg></span>월간</button>
+      <button class="nav-btn" data-page="week"><span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3.8" y="5.2" width="16.4" height="15.2" rx="2.5"/><path d="M8 3.5v3.4M16 3.5v3.4M4 9.5h16M9.3 9.5v10.5M14.7 9.5v10.5M4 14.7h16"/></svg></span>주간</button>
+      <button class="nav-btn" data-page="day"><span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="4" y="4.5" width="16" height="16" rx="2.5"/><path d="M8 2.8v3.4M16 2.8v3.4M8 10h8M8 13.5h5M8 17h8"/><circle cx="6.2" cy="10" r=".45" fill="currentColor" stroke="none"/></svg></span>일간</button>
+      <button class="nav-btn" data-page="settings"><span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 6.5h9M17 6.5h3M4 12h3M11 12h9M4 17.5h8M16 17.5h4"/><circle cx="15" cy="6.5" r="2"/><circle cx="9" cy="12" r="2"/><circle cx="14" cy="17.5" r="2"/></svg></span>설정</button>
     </nav>
   </div>
   <div class="modal-backdrop" id="modal" role="dialog" aria-modal="true"><div class="modal-card" id="modalBody"></div></div>
@@ -130,7 +139,7 @@
     function fromKey(k){const [y,m,d]=k.split('-').map(Number);return new Date(y,m-1,d)}
     function addDays(k,n){const d=fromKey(k);d.setDate(d.getDate()+n);return keyOf(d)}
     function monthKey(k){return k.slice(0,7)}
-    function mondayKey(k){const d=fromKey(k);return addDays(k,-((d.getDay()+6)%7))}
+    function mondayKey(k){const d=fromKey(k);return addDays(k,d.getDay()===0?1:1-d.getDay())}
     function dateLabel(k,withYear=true){const d=fromKey(k);return `${withYear?`${d.getFullYear()}년 `:''}${d.getMonth()+1}월 ${d.getDate()}일 (${weekdays[d.getDay()]})`}
     function dateDifference(dateKey,baseKey=keyOf(new Date())){const [y1,m1,d1]=dateKey.split('-').map(Number),[y2,m2,d2]=baseKey.split('-').map(Number);return Math.round((Date.UTC(y1,m1-1,d1)-Date.UTC(y2,m2-1,d2))/86400000)}
     function ddayText(dateKey,baseKey=keyOf(new Date())){const days=dateDifference(dateKey,baseKey);return days>0?`D-${days}`:days===0?'D-day':`D+${Math.abs(days)}`}
@@ -154,7 +163,7 @@
     function fixedFor(k){const dow=fromKey(k).getDay();return state.settings.fixed.filter(x=>Number(x.day)===dow).sort((a,b)=>a.start.localeCompare(b.start))}
     function dayTotal(k){let total=Number(state.study.totals[k]||0);if(state.study.runningAt){const start=Number(state.study.runningAt),now=Date.now(),d=fromKey(k),a=new Date(d.getFullYear(),d.getMonth(),d.getDate()).getTime(),b=new Date(d.getFullYear(),d.getMonth(),d.getDate()+1).getTime();total+=Math.max(0,Math.min(now,b)-Math.max(start,a))/1000}return Math.floor(total)}
     function plannedFor(k){return dayOn(k).reduce((n,t)=>n+taskMinutes(t),0)}
-    function weekDates(k){const start=mondayKey(k);return Array.from({length:7},(_,i)=>addDays(start,i))}
+    function weekDates(k){const start=addDays(k,-fromKey(k).getDay());return Array.from({length:7},(_,i)=>addDays(start,i))}
     function subjectHoursMap(tasks){const out={};for(const t of tasks)out[t.subjectId]=(out[t.subjectId]||0)+taskMinutes(t);return out}
     function taskConflicts(k){const tasks=dayOn(k).filter(t=>t.start&&t.end);const fixed=fixedFor(k);let msgs=[];for(let i=0;i<tasks.length;i++){const a=tasks[i],[as,ae]=timelineMinuteRange(a.start,a.end);for(let j=i+1;j<tasks.length;j++){const b=tasks[j],[bs,be]=timelineMinuteRange(b.start,b.end);if(as<be&&bs<ae)msgs.push(`공부 일정 “${a.title}”과 “${b.title}” 시간이 겹칩니다.`)}for(const f of fixed){const [fs,fe]=timelineMinuteRange(f.start,f.end);if(as<fe&&fs<ae)msgs.push(`공부 일정 “${a.title}”이 고정 일정 “${f.title}”과 겹칩니다.`)}}return [...new Set(msgs)]}
     function toast(text){const el=$('#toast');el.textContent=text;el.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>el.classList.remove('show'),2400)}
