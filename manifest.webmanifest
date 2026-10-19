@@ -6,8 +6,8 @@
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#0b1218",
-  "theme_color": "#0b1218",
+  "background_color": "#15171d",
+  "theme_color": "#15171d",
   "description": "월간·주간·일간 공부 계획과 시간을 관리하는 오프라인 플래너",
   "icons": [
     { "src": "./icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
