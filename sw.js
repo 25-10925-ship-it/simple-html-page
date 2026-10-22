@@ -1,4 +1,4 @@
-const CACHE_NAME = 'oneul-planner-v10';
+const CACHE_NAME = 'oneul-planner-v13';
 const APP_FILES = ['./', './index.html', './manifest.webmanifest', './icon.svg'];
 
 self.addEventListener('install', event => {
