@@ -1,6 +1,47 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <rect width="512" height="512" rx="128" fill="#5268df"/>
-  <path d="M153 112h206a32 32 0 0 1 32 32v226a30 30 0 0 1-30 30H153a44 44 0 0 1-44-44V156a44 44 0 0 1 44-44Z" fill="#fff"/>
-  <path d="M163 112v288m62-209h105m-105 60h105m-105 60h77" fill="none" stroke="#5268df" stroke-width="24" stroke-linecap="round"/>
-  <circle cx="153" cy="156" r="9" fill="#8b98f0"/><circle cx="153" cy="200" r="9" fill="#8b98f0"/><circle cx="153" cy="244" r="9" fill="#8b98f0"/><circle cx="153" cy="288" r="9" fill="#8b98f0"/>
+  <title>오늘공부</title>
+  <defs>
+    <linearGradient id="background" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#343741"/>
+      <stop offset=".48" stop-color="#1d1f26"/>
+      <stop offset="1" stop-color="#101115"/>
+    </linearGradient>
+    <linearGradient id="panel" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#444751" stop-opacity=".76"/>
+      <stop offset=".5" stop-color="#252730" stop-opacity=".88"/>
+      <stop offset="1" stop-color="#1b1d24" stop-opacity=".96"/>
+    </linearGradient>
+    <linearGradient id="header" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#727887" stop-opacity=".52"/>
+      <stop offset="1" stop-color="#343742" stop-opacity=".3"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#d2dcff"/>
+      <stop offset="1" stop-color="#829cff"/>
+    </linearGradient>
+    <linearGradient id="sheen" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fff" stop-opacity=".2"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="shadow" x="-.2" y="-.2" width="1.4" height="1.5">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="10"/>
+      <feOffset dy="8"/>
+      <feComponentTransfer><feFuncA type="linear" slope=".3"/></feComponentTransfer>
+      <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="url(#background)"/>
+  <rect x="28" y="28" width="456" height="456" rx="108" fill="#fff" fill-opacity=".018" stroke="#fff" stroke-opacity=".12" stroke-width="2"/>
+  <path d="M116 49h158" fill="none" stroke="url(#sheen)" stroke-width="2" stroke-linecap="round"/>
+  <rect x="116" y="96" width="280" height="320" rx="38" fill="url(#panel)" stroke="#fff" stroke-opacity=".24" stroke-width="2" filter="url(#shadow)"/>
+  <path d="M154 97h204a38 38 0 0 1 38 38v39H116v-39a38 38 0 0 1 38-38Z" fill="url(#header)"/>
+  <path d="M181 80v42m150-42v42" fill="none" stroke="#e1e5f0" stroke-opacity=".68" stroke-width="11" stroke-linecap="round"/>
+  <path d="M150 147h83m-83 14h51" fill="none" stroke="#e8ebf4" stroke-opacity=".76" stroke-width="7" stroke-linecap="round"/>
+  <circle cx="159" cy="224" r="15" fill="url(#accent)"/>
+  <path d="m152 224 5 5 10-11" fill="none" stroke="#20222a" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="195" y="216" width="135" height="16" rx="8" fill="#e2e5ed" fill-opacity=".78"/>
+  <circle cx="159" cy="288" r="14" fill="none" stroke="#e2e5ed" stroke-opacity=".5" stroke-width="5"/>
+  <rect x="195" y="281" width="109" height="14" rx="7" fill="#c5c9d3" fill-opacity=".52"/>
+  <circle cx="159" cy="352" r="14" fill="none" stroke="#e2e5ed" stroke-opacity=".5" stroke-width="5"/>
+  <rect x="195" y="345" width="128" height="14" rx="7" fill="#c5c9d3" fill-opacity=".52"/>
 </svg>
