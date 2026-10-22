@@ -5,8 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#15171d">
   <meta name="description" content="월간·주간·일간 공부 계획과 시간을 관리하는 오프라인 플래너">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="오늘공부">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <title>오늘공부 — 수능 플래너</title>
   <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="apple-touch-icon" sizes="512x512" href="./icon-512.png">
   <link rel="icon" href="./icon.svg" type="image/svg+xml">
   <style>
     :root{--ink:#202638;--muted:#788197;--line:#e9ebf1;--paper:#fff;--wash:#f6f7fb;--blue:#5268df;--blue-soft:#eef0ff;--accent:#8a9bc8;--accent-soft:#edf0fa;--amber:#b87913;--amber-soft:#fff4df;--red:#c54d5c;--red-soft:#fff0f1;--shadow:0 10px 28px rgba(35,45,75,.06);--radius:20px}
@@ -162,6 +166,8 @@
     .time-picker-actions .btn{padding:7px 11px;font-size:11px}
     @media(max-width:380px){.time-picker-popover{padding:11px}.time-picker-columns{gap:5px}.time-picker-preview{font-size:23px}}
     @media(max-height:460px){.time-picker-options{height:132px}}
+    .install-help{display:grid;gap:14px}.install-help ol{display:grid;gap:8px;margin:0;padding-left:22px;color:var(--muted)}.install-help strong{color:var(--ink)}.install-help-note{margin:0;color:var(--muted);font-size:12px}
+    @media(max-width:700px){.topbar{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px}.topbar>div:first-child{min-width:0}.top-actions{position:fixed;top:calc(10px + env(safe-area-inset-top));right:13px;z-index:11;min-width:max-content}.top-actions .btn{white-space:nowrap}.topbar .page-heading{overflow-wrap:anywhere}}
   </style>
 </head>
 <body>
@@ -180,7 +186,7 @@
     <main class="main">
       <header class="topbar">
         <div><div class="eyebrow" id="pageEyebrow">오늘의 계획</div><h1 class="page-heading" id="pageTitle">오늘 공부할 것</h1></div>
-        <div class="top-actions"><span class="today-chip" id="headerDate"></span><button class="btn soft" id="installBtn" hidden>앱 설치</button></div>
+        <div class="top-actions"><span class="today-chip" id="headerDate"></span><button class="btn soft" id="installBtn">앱 설치</button></div>
       </header>
       <section id="pageView" class="page"></section>
     </main>
@@ -450,6 +456,8 @@
     function modal(title,body){closeTimePicker();closeDatePicker();const currentEditorDate=$('#modalBody .week-day-editor')?.dataset.weekday;if(currentEditorDate)modalReturnWeekday=currentEditorDate;$('#modalBody').innerHTML=`<div class="modal-head"><h2>${title}</h2><button class="modal-close" data-close-modal aria-label="닫기">×</button></div>${body}`;$('#modalBody').classList.toggle('weekly-timetable-modal',body.includes('class="week-day-editor"'));$('#modal').classList.add('open');const ddayForm=$('#ddayForm');if(ddayForm){ddayForm.noValidate=true;const handleSave=event=>{event.preventDefault();event.stopPropagation();saveDdayForm(ddayForm)};ddayForm.addEventListener('submit',handleSave);ddayForm.querySelector('button[type="submit"]')?.addEventListener('click',handleSave)}}
     function saveDdayForm(form){const fd=new FormData(form),id=String(fd.get('id')||''),title=String(fd.get('title')||'').trim(),date=String(fd.get('date')||''),note=String(fd.get('note')||'').trim();if(!title){toast('이름을 입력해 주세요.');form.elements.namedItem('title')?.focus();return}if(!/^\d{4}-\d{2}-\d{2}$/.test(date)){toast('날짜를 입력해 주세요.');form.elements.namedItem('date')?.focus();return}if(date<keyOf(new Date())){toast('지난 날짜는 D-day로 추가할 수 없습니다.');form.elements.namedItem('date')?.focus();return}if(!Array.isArray(state.ddays))state.ddays=[];const item=state.ddays.find(dday=>dday.id===id);if(id&&!item){toast('D-day 기록을 찾을 수 없습니다.');return}if(item)Object.assign(item,{title,date,note});else state.ddays.push({id:createId(),title,date,note});save();closeModal();render()}
     function closeModal(returnToWeekday=true){closeTimePicker();closeDatePicker();const returnDate=modalReturnWeekday;modalReturnWeekday=null;$('#modal').classList.remove('open');$('#modalBody').innerHTML='';$('#modalBody').classList.remove('weekly-timetable-modal');if(returnDate&&returnToWeekday)weeklyDayModal(returnDate)}
+    function isStandaloneMode(){return navigator.standalone===true||!!window.matchMedia?.('(display-mode: standalone)').matches}
+    function showInstallHelp(){const agent=navigator.userAgent,isApple=/iPhone|iPad|iPod/i.test(agent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1),isAndroid=/Android/i.test(agent);const steps=isApple?'<ol><li><strong>Safari</strong>에서 오늘공부를 엽니다.</li><li>화면의 <strong>공유</strong> 버튼을 누릅니다.</li><li><strong>홈 화면에 추가</strong>를 선택한 뒤 추가합니다.</li></ol>':isAndroid?'<ol><li><strong>Chrome</strong>에서 오늘공부를 엽니다.</li><li>오른쪽 위 <strong>⋮</strong> 메뉴를 누릅니다.</li><li><strong>앱 설치</strong> 또는 <strong>홈 화면에 추가</strong>를 선택합니다.</li></ol>':'<ol><li>브라우저 메뉴를 엽니다.</li><li><strong>앱 설치</strong> 또는 <strong>홈 화면에 추가</strong>를 선택합니다.</li></ol>';modal('앱 설치',`<div class="install-help">${steps}<p class="install-help-note">설치 메뉴가 보이지 않으면 HTTPS 주소로 접속했는지 확인해 주세요.</p><div class="modal-actions"><button type="button" class="btn primary" data-close-modal>확인</button></div></div>`)}
     function formatTimeLabel(value){const match=/^([01]\d|2[0-3]):([0-5]\d)$/.exec(String(value||''));if(!match)return '';const hour=Number(match[1]);return `${hour<12?'오전':'오후'} ${String(hour%12||12).padStart(2,'0')}:${match[2]}`}
     function timeField(name,label,value='',required=false){const display=formatTimeLabel(value);return `<div class="field"><span class="field-label">${esc(label)}</span><div class="time-picker-control"><input type="hidden" name="${esc(name)}" value="${esc(value)}" data-time-value><button type="button" class="input time-picker-trigger ${display?'has-value':''}" data-time-picker="${esc(name)}" data-time-label="${esc(label)}" aria-label="${esc(label)} ${esc(display||'시간 선택')}" aria-haspopup="dialog" aria-expanded="false" ${required?'aria-required="true"':''}><span class="time-picker-trigger-value">${esc(display||'시간 선택')}</span><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5v5l3.2 1.9"/></svg></button></div></div>`}
     function timePickerParts(value){const match=/^([01]\d|2[0-3]):([0-5]\d)$/.exec(String(value||''));if(match){const hour=Number(match[1]);return {period:hour<12?'오전':'오후',hour:String(hour%12||12),minute:match[2]}}const now=new Date();return {period:now.getHours()<12?'오전':'오후',hour:String(now.getHours()%12||12),minute:String(now.getMinutes()).padStart(2,'0')}}
@@ -562,6 +570,8 @@
     document.addEventListener('submit',e=>{const form=e.target;if(form.getAttribute('id')!=='subjectForm')return;e.preventDefault();e.stopImmediatePropagation();const fd=new FormData(form),id=fd.get('id'),name=String(fd.get('name')).trim(),priority=fd.get('priority')||'normal';if(!name)return;const existing=state.subjects.find(s=>s.id===id);if(existing){existing.name=name;existing.priority=priority}else state.subjects.push({id:crypto.randomUUID(),name,priority,color:colors[state.subjects.length%colors.length]});save();closeModal();render()},true);
     document.addEventListener('submit',e=>{const form=e.target;if(form.getAttribute('id')!=='editFixedForm')return;e.preventDefault();const fd=new FormData(form),f=state.settings.fixed.find(x=>x.id===fd.get('id'));if(!f)return;const start=fd.get('start'),end=fd.get('end');if(timeMin(end)<=timeMin(start)){toast('종료 시간은 시작 시간보다 뒤여야 합니다.');return}f.day=Number(fd.get('day'));f.title=String(fd.get('title')).trim();f.start=start;f.end=end;save();closeModal();render()});
     document.addEventListener('click',e=>{const day=e.target.closest('[data-weekday-edit]');if(day){e.preventDefault();e.stopImmediatePropagation();weeklyDayModal(day.dataset.weekdayEdit);return}const grid=e.target.closest('[data-time-grid]');if(!grid||e.target.closest('button'))return;const rect=grid.getBoundingClientRect(),position=Math.max(0,Math.min(1,(e.clientX-rect.left)/rect.width)),minute=TIMELINE_START+Math.round(position*TIMELINE_SPAN/15)*15; e.preventDefault();e.stopImmediatePropagation();timelineTaskModal(grid.dataset.timeDate,grid.dataset.timeGrid,minute)},true);
+    $('#installBtn').hidden=isStandaloneMode();
+    document.addEventListener('click',e=>{const button=e.target.closest('#installBtn');if(!button)return;e.preventDefault();e.stopImmediatePropagation();if(deferredInstall){const prompt=deferredInstall;deferredInstall=null;prompt.prompt();prompt.userChoice.finally(()=>{if(isStandaloneMode())button.hidden=true})}else showInstallHelp()},true);
     window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredInstall=e;$('#installBtn').hidden=false});
     window.addEventListener('appinstalled',()=>{$('#installBtn').hidden=true;toast('앱 설치가 완료되었습니다.')});
     if('serviceWorker' in navigator && /^https?:$/.test(location.protocol)){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}))}
