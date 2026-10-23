@@ -111,8 +111,16 @@
     .calendar-day-empty{margin:0;padding:8px 0;color:var(--muted);font-size:12px}
     .calendar-day-actions{display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap}
     @media(max-width:430px){.calendar-day-actions .btn{flex:1;min-width:max-content}}
-    .brand-mark{overflow:hidden;padding:0;background:transparent;box-shadow:none}
+    .brand-mark{overflow:hidden;padding:0;border:0;background:transparent;box-shadow:none;cursor:pointer;transition:transform .18s ease,filter .18s ease}
+    .brand-mark:hover{transform:scale(1.04);filter:brightness(1.08)}
     .brand-mark img{display:block;width:100%;height:100%;border-radius:inherit;object-fit:cover}
+    .study-wisdom{display:grid;gap:16px;text-align:center;padding:5px 8px 2px}
+    .study-wisdom-badge{justify-self:center;padding:5px 11px;border:1px solid var(--line);border-radius:999px;color:var(--blue);font-size:11px;font-weight:700;letter-spacing:.04em;background:rgba(255,255,255,.045)}
+    .study-wisdom-quote{margin:0;color:var(--ink);font-size:clamp(20px,5vw,25px);font-weight:720;line-height:1.65;letter-spacing:-.035em}
+    .study-wisdom-source{min-height:20px;color:var(--muted);font-size:12px}
+    .study-wisdom-source a{color:var(--blue);text-decoration:none}
+    .study-wisdom-source a:hover{text-decoration:underline}
+    .study-wisdom-actions{justify-content:center;margin-top:4px}
     .study-stopwatch-controls{display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap}
     .study-record-modal{display:grid;gap:14px}
     .study-record-summary{display:flex;justify-content:space-between;gap:12px;padding-bottom:11px;border-bottom:1px solid var(--line);color:var(--muted);font-size:12px}
@@ -182,7 +190,7 @@
 <body>
   <div class="app">
     <aside class="sidebar">
-    <div class="brand"><div class="brand-mark"><img src="./icon-512.png" alt="" width="40" height="40"></div><div><div class="brand-title">오늘공부</div><div class="brand-sub">나만의 수능 플래너</div></div></div>
+    <div class="brand"><button type="button" class="brand-mark" data-study-wisdom aria-label="오늘의 공부 응원 문구 보기" aria-haspopup="dialog"><img src="./icon-512.png" alt="" width="40" height="40"></button><div><div class="brand-title">오늘공부</div><div class="brand-sub">나만의 수능 플래너</div></div></div>
       <nav class="nav-list" aria-label="주요 화면">
         <button class="nav-btn" data-page="home"><span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m3.5 10.7 8.5-7 8.5 7"/><path d="M5.5 9.5v10h5v-5h3v5h5v-10"/></svg></span>오늘</button>
         <button class="nav-btn" data-page="month"><span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3.8" y="5.2" width="16.4" height="15.2" rx="2.5"/><path d="M8 3.5v3.4M16 3.5v3.4M4 9.5h16M8 13h.01M12 13h.01M16 13h.01M8 16.5h.01M12 16.5h.01"/></svg></span>월간 계획</button>
@@ -484,6 +492,44 @@
       const start=Math.max(TIMELINE_START,Math.min(TIMELINE_END-15,Math.round(startMinute/15)*15)),end=Math.min(TIMELINE_END,start+60);taskModal(null,date,scope);
       const startField=$('#modalBody input[name="start"]'),endField=$('#modalBody input[name="end"]');if(startField&&endField){updateTimeField(startField,timelineClock(start));updateTimeField(endField,timelineClock(end))}
     }
+    const studyWisdoms=[
+      {text:'배우고 때때로 익히면 또한 기쁘지 아니한가.',source:'공자, 《논어》 〈학이〉 1.1 · 의역',url:'https://ctext.org/analects/xue-er/ens'},
+      {text:'배우기만 하고 생각하지 않으면 막막하고, 생각만 하고 배우지 않으면 위태롭다.',source:'공자, 《논어》 〈위정〉 2.15 · 의역',url:'https://ctext.org/text.pl?if=en&node=1132&show=parallel'},
+      {text:'천 리 길도 한 걸음에서 시작된다.',source:'노자, 《도덕경》 64장 · 의역',url:'https://ctext.org/text.pl?if=en&node=11655&remap=gb&show=parallel'},
+      {text:'누구와 함께하든, 그에게서 배울 점을 찾을 수 있다.',source:'공자, 《논어》 〈술이〉 7.22 · 의역',url:'https://ctext.org/text.pl?if=en&node=1272&show=parallel'},
+      {text:'묵묵히 익히고, 배우기를 싫증 내지 않는다.',source:'공자, 《논어》 〈술이〉 · 의역',url:'https://ctext.org/si-shu-zhang-ju-ji-zhu/shu-er-di-qi/zh'},
+      {text:'큰일은 갑자기 이루어지지 않는다. 열매도 먼저 꽃을 피운다.',source:'에픽테토스, 《담화록》 1.15.7 · 의역',url:'https://classics.mit.edu/Epictetus/discourses.html'},
+      {text:'아침에 일어나기 힘들 때, 우리는 함께 일하고 살아가도록 태어났음을 떠올려라.',source:'마르쿠스 아우렐리우스, 《명상록》 5권 · 의역',url:'https://classics.mit.edu/Antoninus/meditations.5.five.html'},
+      {text:'가르치는 동안 사람은 배운다.',source:'세네카, 《루킬리우스에게 보내는 편지》 7.8 · 의역',url:'https://thestoiclibrary.com/letters/7'},
+      {text:'오늘 한 번의 집중이 내일의 선택지를 넓혀요.'},
+      {text:'완벽한 계획보다 지금 시작한 10분이 더 큰 힘이 돼요.'},
+      {text:'모르는 문제를 만났다면, 실력이 자랄 기회를 만난 거예요.'},
+      {text:'한 페이지씩 넘기다 보면 어느새 멀리 와 있을 거예요.'},
+      {text:'속도보다 중요한 건 오늘도 다시 책상 앞에 앉는 일이에요.'},
+      {text:'쉬어 가도 괜찮아요. 멈춘 뒤 다시 시작하면 돼요.'},
+      {text:'작은 진전도 기록해 두면 분명한 성장으로 보여요.'},
+      {text:'오늘의 오답은 다음번 정답을 만드는 힌트예요.'},
+      {text:'비교할 사람은 어제의 나 하나면 충분해요.'},
+      {text:'집중한 한 시간이 흘려보낸 하루보다 값질 수 있어요.'},
+      {text:'지금 쌓는 기초가 나중의 자신감을 받쳐 줘요.'},
+      {text:'오늘 할 수 있는 한 가지부터 끝내 봐요.'},
+      {text:'조금씩 꾸준히 하면 낯설던 것도 익숙해져요.'},
+      {text:'틀린 횟수만큼, 다시 풀어낼 방법도 늘어가요.'},
+      {text:'잠깐 막혀도 괜찮아요. 생각하는 시간도 공부예요.'},
+      {text:'작은 목표를 지킨 하루가 큰 목표에 가까워지게 해요.'},
+      {text:'지금의 노력은 바로 보이지 않아도 차곡차곡 남아요.'},
+      {text:'책상에 앉은 것만으로도 이미 시작을 해낸 거예요.'},
+      {text:'한 번에 다 잘하려 하지 말고, 하나씩 선명하게 해 봐요.'},
+      {text:'오늘의 나에게 필요한 건 자책보다 다음 한 문제예요.'},
+      {text:'꾸준함은 재능을 매일 조금씩 키우는 방법이에요.'},
+      {text:'끝까지 해낸 경험은 다음 도전을 시작할 용기가 돼요.'}
+    ];
+    let lastStudyWisdomIndex=-1;
+    function pickStudyWisdom(){let index=Math.floor(Math.random()*studyWisdoms.length);if(studyWisdoms.length>1&&index===lastStudyWisdomIndex)index=(index+1+Math.floor(Math.random()*(studyWisdoms.length-1)))%studyWisdoms.length;lastStudyWisdomIndex=index;return studyWisdoms[index]}
+    function studyWisdomSourceMarkup(quote){return quote.source?'<a href="'+quote.url+'" target="_blank" rel="noopener noreferrer">'+esc(quote.source)+'</a>':'<span>오늘공부 응원 문구</span>'}
+    function studyWisdomMarkup(quote){return '<div class="study-wisdom"><span class="study-wisdom-badge">오늘의 응원</span><blockquote class="study-wisdom-quote" id="studyWisdomQuote" aria-live="polite">“'+esc(quote.text)+'”</blockquote><div class="study-wisdom-source" id="studyWisdomSource">'+studyWisdomSourceMarkup(quote)+'</div><div class="modal-actions study-wisdom-actions"><button type="button" class="btn" data-wisdom-next>다른 문구</button><button type="button" class="btn primary" data-close-modal>닫기</button></div></div>'}
+    function showStudyWisdom(){modal('오늘의 공부 한마디',studyWisdomMarkup(pickStudyWisdom()))}
+    function nextStudyWisdom(){const quote=pickStudyWisdom(),quoteElement=$('#studyWisdomQuote'),sourceElement=$('#studyWisdomSource');if(!quoteElement||!sourceElement){showStudyWisdom();return}quoteElement.textContent='“'+quote.text+'”';sourceElement.innerHTML=studyWisdomSourceMarkup(quote)}
     function modal(title,body){closeTimePicker();closeDatePicker();const currentEditorDate=$('#modalBody .week-day-editor')?.dataset.weekday;if(currentEditorDate)modalReturnWeekday=currentEditorDate;$('#modalBody').innerHTML=`<div class="modal-head"><h2>${title}</h2><button class="modal-close" data-close-modal aria-label="닫기">×</button></div>${body}`;$('#modalBody').classList.toggle('weekly-timetable-modal',body.includes('class="week-day-editor"'));$('#modal').classList.add('open');const ddayForm=$('#ddayForm');if(ddayForm){ddayForm.noValidate=true;const handleSave=event=>{event.preventDefault();event.stopPropagation();saveDdayForm(ddayForm)};ddayForm.addEventListener('submit',handleSave);ddayForm.querySelector('button[type="submit"]')?.addEventListener('click',handleSave)}}
     function saveDdayForm(form){const fd=new FormData(form),id=String(fd.get('id')||''),title=String(fd.get('title')||'').trim(),date=String(fd.get('date')||''),note=String(fd.get('note')||'').trim();if(!title){toast('이름을 입력해 주세요.');form.elements.namedItem('title')?.focus();return}if(!/^\d{4}-\d{2}-\d{2}$/.test(date)){toast('날짜를 입력해 주세요.');form.elements.namedItem('date')?.focus();return}if(date<keyOf(new Date())){toast('지난 날짜는 D-day로 추가할 수 없습니다.');form.elements.namedItem('date')?.focus();return}if(!Array.isArray(state.ddays))state.ddays=[];const item=state.ddays.find(dday=>dday.id===id);if(id&&!item){toast('D-day 기록을 찾을 수 없습니다.');return}if(item)Object.assign(item,{title,date,note});else state.ddays.push({id:createId(),title,date,note});save();closeModal();render()}
     function closeModal(returnToWeekday=true){closeTimePicker();closeDatePicker();const returnDate=modalReturnWeekday;modalReturnWeekday=null;$('#modal').classList.remove('open');$('#modalBody').innerHTML='';$('#modalBody').classList.remove('weekly-timetable-modal');if(returnDate&&returnToWeekday)weeklyDayModal(returnDate)}
@@ -650,6 +696,7 @@
     document.addEventListener('change',e=>{const el=e.target;if(el.dataset.availability!=null){state.settings.availability[Number(el.dataset.availability)]=Number(el.value)||0;save();render()}else if(el.hasAttribute('data-exam-date')){state.settings.examDate=el.value;if(page==='month'&&el.value)monthShowing=monthKey(el.value);save();render()}else if(el.dataset.pomoSetting){state.settings[el.dataset.pomoSetting]=Math.max(1,Number(el.value)||1);save();render()}else if(el.id==='monthGoal'||el.dataset.monthHours||el.dataset.monthContent)persistMonthField(el);else if(el.id==='weekGoal'||el.dataset.weekHours)persistWeekField(el)});
     document.addEventListener('submit',e=>{e.preventDefault();const form=e.target,fd=new FormData(form);if(form.getAttribute('id')==='taskForm'){const id=String(fd.get('id')||''),scope=fd.get('scope')==='day'?'day':'week',sourceDate=String(fd.get('sourceDate')||fd.get('date')),existing=id?taskInScope(id,sourceDate,scope):null,task={id:id||crypto.randomUUID(),title:String(fd.get('title')).trim(),subjectId:fd.get('subjectId'),date:String(fd.get('date')),start:fd.get('start'),end:fd.get('end'),estimate:Number(fd.get('estimate'))||0,done:!!existing?.done};if(task.start&&!task.end||!task.start&&task.end){toast('시작과 종료 시간을 모두 입력하거나 둘 다 비워 주세요.');return}if(task.start&&task.end&&timeMin(task.end)===timeMin(task.start)){toast('시작과 종료 시간은 서로 달라야 합니다.');return}if(scope==='day'){if(id){const original=ensureDayOverride(sourceDate),oldIndex=original.findIndex(t=>t.id===id);if(oldIndex>=0)original.splice(oldIndex,1)}const target=ensureDayOverride(task.date),targetIndex=id?target.findIndex(t=>t.id===id):-1;if(targetIndex>=0)target[targetIndex]=task;else target.push(task)}else{const idx=id?state.tasks.findIndex(t=>t.id===id):-1;if(idx>=0)state.tasks[idx]=task;else state.tasks.push(task)}selectedDate=task.date;save();closeModal();render();return}if(form.getAttribute('id')==='subjectForm'){const id=fd.get('id'),name=String(fd.get('name')).trim();if(!name)return;const existing=state.subjects.find(s=>s.id===id);if(existing)existing.name=name;else state.subjects.push({id:crypto.randomUUID(),name,priority:fd.get('priority')||'normal',color:colors[state.subjects.length%colors.length]});save();closeModal();render();return}if(form.getAttribute('id')==='fixedForm'){const f={id:crypto.randomUUID(),day:Number(fd.get('day')),title:String(fd.get('title')).trim(),start:fd.get('start'),end:fd.get('end')};if(timeMin(f.end)<=timeMin(f.start)){toast('종료 시간은 시작 시간보다 뒤여야 합니다.');return}state.settings.fixed.push(f);save();closeModal();render()}});
     document.addEventListener('submit',e=>{const form=e.target;if(form.getAttribute('id')!=='taskForm')return;e.preventDefault();e.stopImmediatePropagation();const fd=new FormData(form),id=String(fd.get('id')||''),scope=fd.get('scope')==='day'?'day':'week',sourceDate=String(fd.get('sourceDate')||fd.get('date')),existing=id?taskInScope(id,sourceDate,scope):null,task={id:id||crypto.randomUUID(),title:String(fd.get('title')).trim(),subjectId:fd.get('subjectId'),date:String(fd.get('date')),start:fd.get('start'),end:fd.get('end'),estimate:Number(fd.get('estimate'))||0,done:!!existing?.done};if(task.start&&!task.end||!task.start&&task.end){toast('시작과 종료 시간을 모두 입력하거나 둘 다 비워 주세요.');return}if(task.start&&task.end&&timeMin(task.end)===timeMin(task.start)){toast('시작과 종료 시간은 서로 달라야 합니다.');return}if(scope==='day'){if(id&&sourceDate!==task.date)removeDayTask(sourceDate,id);setDayTask(task.date,task)}else{const idx=id?state.tasks.findIndex(t=>t.id===id):-1;if(idx>=0)state.tasks[idx]=task;else state.tasks.push(task)}selectedDate=task.date;save();closeModal();render()},true);
+    document.addEventListener('click',event=>{const logo=event.target.closest('[data-study-wisdom]');if(logo){event.preventDefault();event.stopImmediatePropagation();showStudyWisdom();return}const next=event.target.closest('[data-wisdom-next]');if(next){event.preventDefault();event.stopImmediatePropagation();nextStudyWisdom()}},true);
     $('#modal').addEventListener('click',e=>{if(e.target.id==='modal')closeModal()});
     document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
     document.addEventListener('click',e=>{const remove=e.target.closest('[data-remove-task]');if(remove){e.preventDefault();e.stopImmediatePropagation();const scope=remove.dataset.taskScope||'week',date=remove.dataset.taskDate||selectedDate;if(scope==='day')removeDayTask(date,remove.dataset.removeTask);else state.tasks=state.tasks.filter(t=>t.id!==remove.dataset.removeTask);save();closeModal();render();return}const del=e.target.closest('[data-delete-subject]');if(!del)return;e.preventDefault();e.stopImmediatePropagation();if(confirm('이 과목을 삭제할까요? 연결된 공부 계획은 과목 없음으로 남습니다.')){const id=del.dataset.deleteSubject;state.subjects=state.subjects.filter(s=>s.id!==id);state.tasks.forEach(t=>{if(t.subjectId===id)t.subjectId=''});Object.keys(state.dayOverrides).forEach(date=>ensureDayOverride(date).tasks.forEach(t=>{if(t.subjectId===id)t.subjectId=''}));Object.values(state.months).forEach(m=>delete m.subjects[id]);Object.values(state.weeks).forEach(w=>delete w.subjects[id]);save();render()}},true);
