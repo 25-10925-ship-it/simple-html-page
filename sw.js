@@ -1,5 +1,5 @@
 const CACHE_PREFIX = 'oneul-planner-';
-const CACHE_NAME = 'oneul-planner-v21';
+const CACHE_NAME = 'oneul-planner-v22';
 const APP_FILES = ['./', './index.html', './manifest.webmanifest', './icon-512.png'];
 const APP_URLS = new Set(APP_FILES.map(file => new URL(file, self.registration.scope).href));
 const INDEX_URL = new URL('index.html', self.registration.scope).href;
