@@ -583,16 +583,17 @@
     }
     document.addEventListener('pointerdown',event=>{
       const select=event.target.closest?.('select.select');
-      if(select){if(event.button!==undefined&&event.button!==0)return;event.preventDefault();select.focus({preventScroll:true});openSelectPicker(select);return}
+      if(select){if(event.button!==undefined&&event.button!==0)return;event.preventDefault();event.stopImmediatePropagation();select.focus({preventScroll:true});openSelectPicker(select);return}
       if(activeSelectPicker&&!activeSelectPicker.popup.contains(event.target))closeSelectPicker();
     },true);
+    document.addEventListener('focusin',event=>{const picker=activeSelectPicker;if(picker&&event.target!==picker.select&&!picker.popup.contains(event.target))closeSelectPicker()},true);
     document.addEventListener('click',event=>{
       const select=event.target.closest('select.select');
       if(select){event.preventDefault();event.stopImmediatePropagation();if(!activeSelectPicker||activeSelectPicker.select!==select)openSelectPicker(select);return}
       const picker=activeSelectPicker;if(!picker)return;
       const option=event.target.closest('[data-select-option]');
       if(option&&picker.popup.contains(option)){event.preventDefault();event.stopImmediatePropagation();commitSelectPicker(Number(option.dataset.selectOption));return}
-      if(!picker.popup.contains(event.target))closeSelectPicker();
+      if(event.detail===0&&!picker.popup.contains(event.target))closeSelectPicker();
     },true);
     document.addEventListener('keydown',event=>{
       if(activeSelectPicker&&event.key==='Escape'){event.preventDefault();event.stopImmediatePropagation();closeSelectPicker(true);return}
